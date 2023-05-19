@@ -21,7 +21,7 @@ const NotificationPage: CustomNextPage = () => {
   const _data = [
     ...data,
     {
-      message: "Welcome to social app",
+      message: "Welcome to Theras app",
     },
   ];
   return (

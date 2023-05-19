@@ -7,6 +7,12 @@ import { Settings } from "tabler-icons-react";
 export const ITEMS = [
   {
     href: getPath("INDEX"),
+    label: "Dashboard",
+    Icon: TbCategory2,
+    size: "1.5rem",
+  },
+  {
+    href: getPath("OVERLAY"),
     label: "Overlay",
     Icon: TbCategory2,
     size: "1.5rem",
@@ -21,7 +27,12 @@ export const ITEMS = [
     label: "NFT Factory",
     Icon: BiTask,
   },
-
+  // {
+  // giveaway select winners?
+  //   href: getPath("HISTORY"),
+  //   label: "NFT Factory",
+  //   Icon: BiTask,
+  // },
   {
     href: getPath("GROUP_CHAT"),
     label: "Stream TNT",

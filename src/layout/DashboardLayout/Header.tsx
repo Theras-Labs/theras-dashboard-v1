@@ -15,7 +15,7 @@ import {
   Menu,
 } from "@mantine/core";
 import { signOut, useSession } from "next-auth/react";
-import BellIcon from "src/icons/BellIcon";
+import BellIcon from "src/lib/icons/BellIcon";
 import Image from "next/image";
 import { useUserDataStore } from "src/store/useUserDetail";
 import { useDisconnect } from "wagmi";
@@ -49,26 +49,14 @@ export const Header: FC<{ left: ReactNode }> = ({ left }) => {
   // const userData = getLargeCookie("cookie_userData");
 
   return (
-    <Container
-      style={{
-        width: "100%",
-        maxWidth: "100vw",
-        display: "flex",
-        justifyContent: "flex-end",
-        color: "white",
-      }}
-    >
+    <Container className="w-full !max-w-[100%] flex flex-end my-0 ">
       <Box
         component="header"
         sx={(theme) => ({
           padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
           // backgroundColor: "",
         })}
-        style={{
-          padding: 10,
-          width: "80%",
-          marginRight: "0",
-        }}
+        className="p-3 w-[100%] mr-0"
       >
         <Group
           spacing="lg"
@@ -141,7 +129,7 @@ const NotificationBell: FC = () => {
   const _data = [
     ...data,
     {
-      message: "Welcome to social app",
+      message: "Welcome to Theras app",
     },
   ];
   return (

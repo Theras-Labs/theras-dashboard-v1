@@ -14,7 +14,6 @@ import {
 } from "@mantine/core";
 import { Menu2 } from "tabler-icons-react";
 import { LayoutErrorBoundary } from "../LayoutErrorBoundary";
-import Footer from "src/layout/DashboardLayout/Footer";
 
 const Header = dynamic(async () => {
   const { Header } = await import("./Header");
@@ -34,7 +33,11 @@ export const DashboardLayout: CustomLayout = (page) => {
       padding="md"
       styles={(theme) => ({
         body: { minHeight: "100vh" },
-        main: { padding: 0, backgroundColor: "#0A192F" },
+        main: {
+          padding: 0,
+          // backgroundColor: "#272E39",
+          backgroundColor: "#0A192F",
+        },
       })}
       navbar={
         <>
@@ -62,8 +65,11 @@ export const DashboardLayout: CustomLayout = (page) => {
         }
       />
       <Box py="xl" px="md">
-        <LayoutErrorBoundary>{page}</LayoutErrorBoundary>
+        <Container p="md" className="overflow-auto max-w-full p-3 !text-white">
+          <LayoutErrorBoundary>{page}</LayoutErrorBoundary>
+        </Container>
       </Box>
+
       {/* <Footer /> */}
     </AppShell>
   );

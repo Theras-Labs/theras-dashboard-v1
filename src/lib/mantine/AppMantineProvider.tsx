@@ -9,8 +9,9 @@ export const AppMantineProvider: FC<{ children: ReactNode }> = ({
       withGlobalStyles
       withNormalizeCSS
       theme={{
+        colorScheme: "dark",
         colors: {
-          black: ["#000000"],
+          black: ["#ffffff"],
           orange: ["#EC3C2B"],
           white: ["#ffffff"],
           green: ["#64FFDB"],

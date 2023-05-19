@@ -15,9 +15,9 @@ import {
 import { ArrowLeft, ArrowRight } from "tabler-icons-react";
 import { getPath } from "src/lib/const";
 import { ActiveLink } from "src/lib/next";
-import SocialFiIcon from "src/icons/SocialFiIcon";
+
 import { BannerFluencr, styles } from "../../component/Sidenav";
-import { ITEMS, ITEMS_PROFILE } from "../../../utils/MenuItems";
+import { ITEMS, ITEMS_PROFILE } from "../../lib/const/MenuItems";
 
 export const LogoTheras = () => {
   const { classes } = styles(false);

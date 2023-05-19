@@ -21,7 +21,7 @@ const useStyles = createStyles((theme) => ({
     display: "block",
     width: "auto",
     padding: theme.spacing.md,
-    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+    color: theme.white,
 
     "&:hover": {
       backgroundColor:

@@ -11,27 +11,16 @@ import { useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import ContinueCourseBanner from "src/component/Courses/ContinueCourseBanner";
 import { useRouter } from "next/router";
-import ModalUpgrade from "src/component/Modal/ModalUpgrade";
+// import ModalUpgrade from "src/component/Modal/ModalUpgrade";
 import { useNotif } from "src/store/useNotif";
 import { useProgress } from "src/store/useProgress";
 
+//
 const Index: CustomNextPage = () => {
   useCourses();
   useNotif();
   useProgress();
-  return (
-    <Container
-      p="md"
-      style={{
-        overflow: "auto",
-        maxWidth: "80%",
-        marginRight: "0",
-        padding: "0",
-      }}
-    >
-      <ContinueCourseBanner />
-    </Container>
-  );
+  return <ContinueCourseBanner />;
 };
 
 Index.getLayout = DashboardLayout;

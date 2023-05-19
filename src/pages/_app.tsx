@@ -2,7 +2,7 @@
 import type { CustomAppPage, AppProps } from "next/app";
 import { AppMantineProvider, GlobalStyleProvider } from "src/lib/mantine";
 import { SessionProvider, getSession } from "next-auth/react";
-import { AuthProvider } from "src/context/auth-context";
+import { AuthProvider } from "src/store/context/auth-context";
 import type { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import { useUserDataStore } from "../store/useUserDetail";
@@ -15,6 +15,7 @@ import {
   goerli,
 } from "wagmi";
 import { getDefaultProvider } from "ethers";
+import "../styles/global.css";
 
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";

@@ -7,13 +7,14 @@ const useStyles = createStyles<string, { collapsed?: boolean }>(
 
     return {
       navbar: {
-        position: "fixed",
+        position: "sticky",
         top: 0,
         bottom: 0,
         left: 0,
         width: params?.collapsed ? 81 : 264,
         transition: params?.collapsed ? "width 0.1s linear" : "none",
-        background: "#0C1E37",
+        background: "#0C1E37", //lbue
+        // background: "#2A333E",
         border: 0,
       },
 
@@ -25,7 +26,7 @@ const useStyles = createStyles<string, { collapsed?: boolean }>(
       },
 
       menu: {
-        // height: "50%",
+        height: "50%",
       },
 
       footer: {
