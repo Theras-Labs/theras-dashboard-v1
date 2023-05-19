@@ -112,10 +112,10 @@ export const authOptions: NextAuthOptions = {
   // },
   adapter: FirestoreAdapter({
     credential: cert({
-      projectId: process.env.NEXT_PUBLIC_FIREBASE_projectId,
-      clientEmail: process.env.NEXT_PUBLIC_clientEmail,
-      privateKey: process.env.NEXT_PUBLIC_privateKey
-        ? process.env.NEXT_PUBLIC_privateKey.replace(/\\n/gm, "\n")
+      projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+      clientEmail: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
+      privateKey: process.env.NEXT_PUBLIC_PRIVATE_KEY
+        ? process.env.NEXT_PUBLIC_PRIVATE_KEY.replace(/\\n/gm, "\n")
         : undefined,
     }),
   }),

@@ -44,24 +44,24 @@ const AuthProvider = ({ children }) => {
   //     }
   //   };
 
-  // useEffect(() => {
-  //   console.log("effect context web2");
-  //   // web2
-  //   if (status !== "loading" && type !== "eth_address") {
-  //     if (session) {
-  //       // this should start load all required data
-  //       console.log("effect context web2-- SESSIONS");
+  useEffect(() => {
+    console.log("effect context web2");
+    // web2
+    if (status !== "loading" && type !== "eth_address") {
+      if (session) {
+        // this should start load all required data
+        console.log("effect context web2-- SESSIONS");
 
-  //       if (!userData) {
-  //         loadUserData(session?.user?.email, "web2");
-  //         // if already authenticated then no need to push
-  //         router.push("/");
-  //       }
-  //     } else {
-  //       router.push("/sign-in");
-  //     }
-  //   }
-  // }, [session]);
+        if (!userData) {
+          loadUserData(session?.user?.email, "web2");
+          // if already authenticated then no need to push
+          router.push("/");
+        }
+      } else {
+        router.push("/sign-in");
+      }
+    }
+  }, [session]);
 
   // useEffect(() => {
   //   // web3

@@ -19,15 +19,26 @@ import {
   Textarea,
   Stack,
   ColorPicker,
+  Overlay,
 } from "@mantine/core";
-import { useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useNotif } from "src/store/useNotif";
 import { useProgress } from "src/store/useProgress";
 import CardLayout from "src/layout/CardLayout";
 import { IconUpload } from "@tabler/icons-react";
-
+import { db } from "../../firebase.config";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  setDoc,
+  addDoc,
+} from "firebase/firestore";
+import { useUserDataStore } from "src/store/useUserDetail";
+import { notifications } from "@mantine/notifications";
 const OVERLAY_TABS = [
   "alert",
   "wheel",
@@ -38,9 +49,90 @@ const OVERLAY_TABS = [
   "leaderboard",
   "running text",
 ];
-const Overlay: CustomNextPage = () => {
+
+const allowedCharactersRegex = /^[a-zA-Z0-9@$-_]*$/;
+const OverlayHandler = ({ userID = "", onClose = () => {} }) => {
+  const [handler, setHandler] = useState("");
+  //   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const { setProfile, loading } = useUserDataStore();
+
+  return (
+    <Overlay
+      className="flex flex-col justify-center items-center fixed"
+      color="#000"
+      opacity={0.85}
+    >
+      You haven't create a handler or username
+      <br />
+      <br />
+      <div className="flex items-start">
+        <TextInput
+          error={error}
+          placeholder="@cool_handler"
+          value={handler}
+          onChange={(e) => {
+            const inputValue = e.target.value;
+            if (!allowedCharactersRegex.test(inputValue)) {
+              setError("Handler contains disallowed characters.");
+            } else {
+              setError("");
+              setHandler(inputValue);
+            }
+          }}
+          //   label={"handler name"}
+        />
+        <Button
+          loading={loading}
+          onClick={async (e) => {
+            if (allowedCharactersRegex.test(handler)) {
+              setHandler(handler);
+              setError("");
+
+              // Check if handler is already used in Firestore
+              const querySnapshot = await getDocs(
+                query(
+                  collection(db, "handlers"),
+                  where("handler", "==", handler)
+                )
+              );
+
+              if (!querySnapshot.empty) {
+                setError("Handler is already in use.");
+              } else {
+                setProfile(handler, userID);
+                notifications.show({
+                  title: "Successfully updating handler",
+                  message: `Your handler is ${handler} now`,
+                });
+              }
+            } else {
+              setError("Handler contains disallowed characters.");
+            }
+          }}
+          className="ml-2"
+        >
+          Submit
+        </Button>
+      </div>
+    </Overlay>
+  );
+};
+const OverlayPage: CustomNextPage = () => {
+  const [isOverlay, setOverlay] = useState(false);
+  const { userID, handler } = useUserDataStore();
+
   return (
     <div className="">
+      {!handler && (
+        <OverlayHandler
+          {...{
+            userID,
+            onClose: () => setOverlay(false),
+          }}
+        />
+      )}
       <Tabs color="red" defaultValue="alert">
         <Tabs.List>
           {OVERLAY_TABS?.map((item, i) => (
@@ -65,11 +157,18 @@ const Overlay: CustomNextPage = () => {
   );
 };
 
-Overlay.getLayout = DashboardLayout;
+OverlayPage.getLayout = DashboardLayout;
 
-export default Overlay;
+export default OverlayPage;
 
 const PanelAlert = () => {
+  const { handler, handlerID } = useUserDataStore();
+  const url_params = `https://theras.xyz/widget/${handler}`;
+  const [appearance, setAppearance] = useState({
+    bg_color: "",
+  });
+  const [value, onChange] = useState("rgba(47, 119, 150, 0.7)");
+
   return (
     <div className="pb-32">
       <CardLayout title="Rules">
@@ -176,8 +275,8 @@ const PanelAlert = () => {
       </CardLayout>
 
       <div
-        style={{ fontSize: 60 }}
-        className={`my-4 bg-red-400 p-4 rounded-sm text-center`}
+        style={{ fontSize: 60, background: value }}
+        className={`my-4  p-4 rounded-sm text-center`}
       >
         <div style={{ fontSize: 60 }}>
           <span>Sponsor</span>&nbsp; just donate you <span>$100</span>
@@ -185,13 +284,33 @@ const PanelAlert = () => {
         Keep going 🔥
       </div>
 
-      <CardLayout title="Appearance">
+      <CardLayout
+        onSave={async () => {
+          const documentRef = doc(db, "handler/" + handlerID);
+
+          await setDoc(
+            documentRef,
+            {
+              appearance: {
+                bg_color: value,
+              },
+            },
+            { merge: true }
+          );
+
+          notifications.show({
+            title: "Save appearance",
+            message: `Succesfull saving new appearance `,
+          });
+        }}
+        title="Appearance"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 md:gap-8 md:w-2/3 ">
           <div className="col-span-1 ">
             Background Color
             <TextInput label="Hex color" />
             <br />
-            <ColorPicker format="rgba" />
+            <ColorPicker format="rgba" value={value} onChange={onChange} />
           </div>
           <div className="col-span-1 ">
             Highlight Color
@@ -225,18 +344,59 @@ const PanelAlert = () => {
         </div>
         <br />
         <div className="my-2  bg-slate-700  p-4 rounded-md">
-          https://theras.xyz/widget/mockuser
+          https://theras.xyz/widget/{handler}
         </div>
         <br />
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-2 !uppercase">
-          <Button size="xl" className="bg-purple-500 uppercase col-span-1 ">
+          <Button
+            onClick={() => {
+              notifications.show({
+                title: "Success",
+                message: `Copied ${url_params}`,
+              });
+            }}
+            size="xl"
+            className="bg-purple-500 uppercase col-span-1 "
+          >
             Copy
           </Button>
           <Button size="xl" className="bg-green-500 uppercase ">
-            Open in new tab
+            <a href={url_params} target="_blank" rel="noreferrer">
+              Open in new tab
+            </a>
           </Button>
           <div className="col-span-1">
-            <Button size="xl" className="bg-red-500 uppercase w-full">
+            <Button
+              onClick={async () => {
+                //push notification
+
+                const collectionPath = "widget-msg"; // Replace "collectionName" with the name of your Firestore collection
+                const newData = {
+                  message: "Test ",
+                  to: handler,
+
+                  test: true,
+                  createdAt: Math.floor(Date.now() / 1000),
+                  // Add more fields and values as needed
+                };
+                try {
+                  const docRef = await addDoc(
+                    collection(db, collectionPath),
+                    newData
+                  );
+                  console.log("Document created with ID: ", docRef.id);
+                  //   set({ handler, handlerID: docRef.id });
+                } catch (error) {
+                  console.error("Error creating document: ", error);
+                }
+
+                notifications.show({
+                  message: `Sending notification `,
+                });
+              }}
+              size="xl"
+              className="bg-red-500 uppercase w-full"
+            >
               Show Notification
             </Button>
             <br />
@@ -251,3 +411,5 @@ const PanelAlert = () => {
     </div>
   );
 };
+
+// {anonymous_label: "Seseorang", background_color: "", css: "", duration: "5000", highlight_color: "",…}

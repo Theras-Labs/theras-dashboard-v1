@@ -84,6 +84,9 @@ export const Header: FC<{ left: ReactNode }> = ({ left }) => {
               Membership: <SubscriptionType />
             </Container>
           </Container>
+          <span className="text-main-green">
+            NOTE: This is an unaudited BETA Product - use at your own risk.
+          </span>
           {/* Right Side */}
           <Container
             style={{
