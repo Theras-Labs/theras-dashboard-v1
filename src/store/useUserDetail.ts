@@ -97,6 +97,7 @@ export const useUserDataStore = create((set, get) => ({
   setProfile: async (handler, userID) => {
     // userdata change
     // LOGIN ACCOUNT
+    // bug: switchover the users is the last
     set({ loading: true, error: null });
 
     const documentPath = `users/${userID}`;

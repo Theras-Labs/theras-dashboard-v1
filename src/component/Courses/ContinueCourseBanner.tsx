@@ -10,65 +10,57 @@ const child = <Skeleton height={140} radius="md" animate={true} />;
 const ContinueCourseBanner = () => {
   const { handleContinue } = useContinueCourse();
   return (
-    <Container
-      my={"md"}
-      style={{
-        maxWidth: "100%",
-        padding: "0.5rem",
-      }}
-    >
-      <Grid justify="center" align="stretch">
-        <Grid.Col xs={8}>
-          <Card
-            radius="md"
-            p="xl"
-            bg="orange"
+    <Grid justify="center" align="stretch">
+      <Grid.Col xs={8}>
+        <Card
+          radius="md"
+          p="xl"
+          bg="orange"
+          style={{
+            backgroundColor: "#172A46",
+            height: "100%",
+          }}
+          className={classes.card}
+        >
+          <Text
+            fz="xxxl"
+            pb="lg"
             style={{
-              backgroundColor: "#172A46",
-              height: "100%",
+              color: "#fff",
+              fontSize: "28px",
+              fontWeight: "500",
+              // width: "550px",
             }}
-            className={classes.card}
+            className={classes.title}
           >
-            <Text
-              fz="xxxl"
-              pb="lg"
+            Activate smart contract on your live session, and
+            <br />
+            earn more by challenging your viewers
+          </Text>
+          <Button
+            onClick={handleContinue}
+            radius="lg"
+            // color="orange !important"
+            className={classes.button}
+            style={{
+              color: "#EC3C2B",
+              backgroundColor: "#fff",
+              textTransform: "uppercase",
+            }}
+          >
+            Learn more
+            <BsArrowRight
               style={{
-                color: "#fff",
-                fontSize: "28px",
-                fontWeight: "500",
-                // width: "550px",
+                fontWeight: "900",
+                marginLeft: "13px",
+                fontSize: "1.5rem",
               }}
-              className={classes.title}
-            >
-              Activate smart contract on your live session, and
-              <br />
-              earn more by engaging with your viewers
-            </Text>
-            <Button
-              onClick={handleContinue}
-              radius="lg"
-              // color="orange !important"
-              className={classes.button}
-              style={{
-                color: "#EC3C2B",
-                backgroundColor: "#fff",
-                textTransform: "uppercase",
-              }}
-            >
-              Learn more
-              <BsArrowRight
-                style={{
-                  fontWeight: "900",
-                  marginLeft: "13px",
-                  fontSize: "1.5rem",
-                }}
-              />
-            </Button>
-          </Card>
-        </Grid.Col>
-        <Grid.Col xs={4}></Grid.Col>
-      </Grid>
-    </Container>
+            />
+          </Button>
+        </Card>
+      </Grid.Col>
+      <Grid.Col xs={4}></Grid.Col>
+    </Grid>
   );
 };
 

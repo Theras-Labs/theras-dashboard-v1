@@ -2,7 +2,7 @@ import type { CustomNextPage } from "next";
 import { DashboardLayout } from "src/layout";
 
 const GroupChat: CustomNextPage = () => {
-  return <div>GroupChat</div>;
+  return <div>Coming Soon</div>;
 };
 
 GroupChat.getLayout = DashboardLayout;

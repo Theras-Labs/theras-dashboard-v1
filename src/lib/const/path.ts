@@ -6,6 +6,7 @@ const PATH = {
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
   FORGOT_PASSWORD: "/forgot-password",
+  SESSION: "/session",
   HISTORY: "/history",
   SCONTRACT: "/contract",
   GROUP_CHAT: "/group-chat",

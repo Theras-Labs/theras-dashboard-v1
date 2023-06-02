@@ -163,9 +163,11 @@ export default OverlayPage;
 
 const PanelAlert = () => {
   const { handler, handlerID } = useUserDataStore();
+  console.log(handlerID, "handlerID");
   const url_params = `https://theras.xyz/widget/${handler}`;
   const [appearance, setAppearance] = useState({
     bg_color: "",
+    text_color: "",
   });
   const [value, onChange] = useState("rgba(47, 119, 150, 0.7)");
 
@@ -246,8 +248,16 @@ const PanelAlert = () => {
           <Button className="bg-slate-500 ml-4 ">Try the voice!</Button>
         </div>
         <div className="flex mt-4 items-end">
+          <Select
+            defaultValue="cena"
+            data={[
+              { value: "cena", label: "john cena" },
+              { value: "default", label: "default" },
+            ]}
+            label="Variant alert sound"
+          />
           <FileInput
-            // className="bg-slate-400"
+            className="ml-2"
             label="Notification Alert Sound"
             placeholder="Upload file"
             icon={<IconUpload size={14} />}
@@ -274,6 +284,7 @@ const PanelAlert = () => {
         </div>
       </CardLayout>
 
+      <CardLayout title="Select overlay from NFT">Coming Soon</CardLayout>
       <div
         style={{ fontSize: 60, background: value }}
         className={`my-4  p-4 rounded-sm text-center`}
@@ -286,22 +297,42 @@ const PanelAlert = () => {
 
       <CardLayout
         onSave={async () => {
-          const documentRef = doc(db, "handler/" + handlerID);
+          try {
+            const q = query(
+              collection(db, "handler"),
+              where("handler", "==", handler)
+            );
+            const querySnapshot = await getDocs(q);
 
-          await setDoc(
-            documentRef,
-            {
-              appearance: {
-                bg_color: value,
-              },
-            },
-            { merge: true }
-          );
+            if (!querySnapshot.empty) {
+              // Retrieve the first document from the query result
+              const documentSnapshot = querySnapshot.docs[0];
+              const documentRef = doc(db, "handler", documentSnapshot.id);
 
-          notifications.show({
-            title: "Save appearance",
-            message: `Succesfull saving new appearance `,
-          });
+              await setDoc(
+                documentRef,
+                {
+                  appearance: {
+                    bg_color: value,
+                  },
+                },
+                { merge: true }
+              );
+
+              notifications.show({
+                title: "Save appearance",
+                message: `Succesfull saving new appearance `,
+              });
+            } else {
+              console.log("No document found for the provided username.");
+            }
+          } catch (error) {
+            console.error("Error updating document:", error);
+            notifications.show({
+              title: "Error",
+              message: `Error saving new appearance `,
+            });
+          }
         }}
         title="Appearance"
       >
@@ -369,14 +400,17 @@ const PanelAlert = () => {
             <Button
               onClick={async () => {
                 //push notification
-
                 const collectionPath = "widget-msg"; // Replace "collectionName" with the name of your Firestore collection
                 const newData = {
-                  message: "Test ",
+                  message: "Keep going, i love you",
                   to: handler,
-
+                  read: false,
                   test: true,
+                  value: 1000,
+                  payment: "card", // card | token | nft
+                  from: "self",
                   createdAt: Math.floor(Date.now() / 1000),
+                  // tx_hash:
                   // Add more fields and values as needed
                 };
                 try {

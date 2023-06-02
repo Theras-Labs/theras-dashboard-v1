@@ -1,8 +1,19 @@
 import { BiTask, BiHelpCircle } from "react-icons/bi";
 import { TbCategory2 } from "react-icons/tb";
-import { BsDiscord, BsChatDots } from "react-icons/bs";
+import {
+  BsDiscord,
+  BsChatDots,
+  BsFillLayersFill,
+  BsListCheck,
+  BsCollectionPlayFill,
+  BsBoxes,
+  BsBox,
+  BsFillHouseAddFill,
+} from "react-icons/bs";
 import { getPath } from "src/lib/const";
 import { Settings } from "tabler-icons-react";
+import { SiMlflow } from "react-icons/si";
+import { GiSandsOfTime } from "react-icons/gi";
 
 export const ITEMS = [
   {
@@ -14,35 +25,49 @@ export const ITEMS = [
   {
     href: getPath("OVERLAY"),
     label: "Overlay",
-    Icon: TbCategory2,
+    // Icon: BsFillLayersFill,
+    Icon: BsBox,
     size: "1.5rem",
   },
   {
     href: getPath("HISTORY"),
     label: "History Tx",
-    Icon: BiTask,
+    Icon: BsListCheck,
   },
   {
-    href: getPath("HISTORY"),
-    label: "NFT Factory",
-    Icon: BiTask,
+    href: getPath("SESSION"),
+    label: "Session",
+    Icon: GiSandsOfTime,
   },
-  // {
-  // giveaway select winners?
-  //   href: getPath("HISTORY"),
-  //   label: "NFT Factory",
-  //   Icon: BiTask,
-  // },
+  {
+    href: getPath("GROUP_CHAT"),
+    label: "Attendance",
+    Icon: BiTask,
+    comingSoon: true,
+  },
+  {
+    href: getPath("GROUP_CHAT"),
+    label: "NFT Factory",
+    Icon: BsFillHouseAddFill,
+    comingSoon: true,
+  },
+
   {
     href: getPath("GROUP_CHAT"),
     label: "Stream TNT",
-    Icon: BsChatDots,
+    Icon: SiMlflow,
+    comingSoon: true,
+  },
+  {
+    href: getPath("GROUP_CHAT"),
+    label: "NFT Overlay",
+    Icon: BsBoxes,
     comingSoon: true,
   },
   {
     href: getPath("GROUP_CHAT"),
     label: "NFT Courses",
-    Icon: BsChatDots,
+    Icon: BsCollectionPlayFill,
     comingSoon: true,
   },
 ];

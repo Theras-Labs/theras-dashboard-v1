@@ -59,6 +59,9 @@ export default function ModalWallet() {
           borderRadius: "25px",
         }}
       >
+        <span>
+          Web3 login currently under maintenance, please use oauth web2 login
+        </span>
         {isConnected ? (
           <Profile />
         ) : (
@@ -129,13 +132,14 @@ export default function ModalWallet() {
             width: "100%",
             height: "100%",
             padding: "15px 24px",
-            backgroundColor: "#172A46",
+            // backgroundColor: "#172A46",
             border: "1px solid #18180A",
             borderRadius: "100px",
             textTransform: "uppercase",
             fontFamily: "Space Grotesk, Sans-Serif",
             fontWeight: "700",
           }}
+          className="bg-orange-600"
         >
           <span
             style={
